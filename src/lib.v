@@ -13,6 +13,5 @@ fn calc_progress[T](value T, min T, max T, width int) (f64, f64) {
 	mut progress := 0.0
 	progress = scale(value, min, max, 0, 100)
 	width_progress := scale(progress, 0, 100, 0, width)
-	println('$value : $progress $width_progress')
 	return progress, width_progress
 }
