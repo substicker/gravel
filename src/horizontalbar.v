@@ -10,7 +10,33 @@ pub struct RGB {
 	b u8
 }
 
-pub type Color = RGB | bool | map[int]RGB
+pub enum BarColor {
+	def
+	white
+	black
+	red
+	blue
+	green
+	cyan
+	magenta
+	yellow
+	gray
+}
+
+const bar_color_to_term_color = {
+	BarColor.def : fn (s string) string { return s}
+	BarColor.white : term.white
+	BarColor.black : term.black
+	BarColor.red : term.red
+	BarColor.blue : term.blue
+	BarColor.green: term.green
+	BarColor.magenta: term.magenta
+	BarColor.yellow: term.yellow
+	BarColor.cyan: term.cyan
+	BarColor.gray: term.gray
+}
+
+pub type Color = RGB | BarColor | map[int]RGB
 
 // HorizontalBar struct for making the horizontalbar
 pub struct HorizontalBar[T] {
@@ -77,6 +103,14 @@ fn (mut b HorizontalBar[T]) dye_rgb() {
 	b.last_block = term.rgb(color.r, color.g, color.b, b.last_block)
 }
 
+fn (mut b HorizontalBar[T]) dye_barcolor() {
+	color := b.color as BarColor
+	term_color := bar_color_to_term_color[color]
+
+	b.used_space = term.colorize(term_color, b.used_space)
+	b.last_block = term.colorize(term_color, b.last_block)
+}
+
 // it's messy but it works just fine! (for now)
 fn (mut b HorizontalBar[T]) dye_map_int_rgb() {
 	color := b.color as map[int]RGB
@@ -114,7 +148,7 @@ fn (mut b HorizontalBar[T]) dye() {
 		return
 	}
 	match b.color {
-		bool { return }
+		BarColor { b.dye_barcolor() }
 		RGB { b.dye_rgb() }
 		map[int]RGB { b.dye_map_int_rgb() }
 	}
