@@ -16,6 +16,7 @@ pub struct ProgressBar {
 	label       Label
 	width       int = 75
 	color       Color
+	goal        int = 100
 mut:
 	progress_bar string
 pub mut:
@@ -51,7 +52,7 @@ pub fn (mut p ProgressBar) style_classic() {
 	mut horizontal_bar := HorizontalBar{
 		value: p.value
 		min: 0
-		max: 100
+		max: p.goal
 		blocks: [` `, `▏`, `▎`, `▍`, `▌`, `▋`, `▊`, `▉`, `█`]
 		color: p.color
 		empty_block: ` `
@@ -82,14 +83,14 @@ pub fn (mut p ProgressBar) style_apt() {
 	mut horizontal_bar := HorizontalBar{
 		value: p.value
 		min: 0
-		max: 100
+		max: p.goal
 		blocks: [`#`]
 		empty_block: `.`
 		width: p.width
 	}
 	horizontal_bar.render()
 
-	builder.write_string(term.black('Progress: [${horizontal_bar.progress:3}%]'))
+	builder.write_string(term.bg_green('Progress: [${horizontal_bar.progress:3}%]'))
 	builder.write_rune(`[`)
 	builder.write_string(horizontal_bar.str())
 	builder.write_rune(`]`)
