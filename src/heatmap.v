@@ -91,8 +91,8 @@ fn (h Heatmap) str() string {
 }
 
 fn get_block(val int) string {
-	if val >= .block_color.len {
-		return .block_color[.block_color.len - 1]
+	if val >= block_color.len {
+		return block_color[block_color.len - 1]
 	}
-	return .block_color[val]
+	return block_color[val]
 }
