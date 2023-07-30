@@ -82,7 +82,7 @@ pub fn (h Heatmap) str() string {
 	mut builder := strings.new_builder(0)
 
 	for index, row in h.heatmap {
-		e := h.width - index - 1
+		//e := h.width - index - 1
 		builder.writeln(row.join(''))
 		//builder.writeln('${e:2}|' + row.join(''))
 	}
