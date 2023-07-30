@@ -1,6 +1,28 @@
 module gravel
 
 import strings
+import term
+
+const block_color = [
+	' ',
+	term.blue('░'),
+	term.blue('▒'),
+	term.blue('▓'),
+	term.blue('█'),
+	term.bg_blue(' '),
+	term.bg_blue(term.green('░')),
+	term.bg_blue(term.green('▒')),
+	term.bg_blue(term.green('▓')),
+	term.bg_green(' '),
+	term.bg_green(term.yellow('░')),
+	term.bg_green(term.yellow('▒')),
+	term.bg_green(term.yellow('▓')),
+	term.bg_yellow(' '),
+	term.bg_yellow(term.red('░')),
+	term.bg_yellow(term.red('▒')),
+	term.bg_yellow(term.red('▓')),
+	term.red('█'),
+]
 
 pub struct Heatmap {
 	width  int
@@ -63,21 +85,14 @@ fn (h Heatmap) str() string {
 		e := h.width - index - 1
 		builder.writeln('${e:2}|' + row.join(''))
 	}
-	builder.writeln('   ' + strings.repeat_string('-', h.width * 2))
+	builder.writeln('   ' + strings.repeat_string('-', h.width))
 
 	return builder.str()
 }
 
 fn get_block(val int) string {
-	// █ ▓ ▒ ░
-	mut hex_val := '  '
-	match val {
-		0 { hex_val = '  ' }
-		1 { hex_val = '░░' }
-		2 { hex_val = '▒▒' }
-		3 { hex_val = '▓▓' }
-		4 { hex_val = '██' }
-		else { hex_val = '██' }
+	if val >= .block_color.len {
+		return .block_color[.block_color.len - 1]
 	}
-	return hex_val
+	return .block_color[val]
 }
