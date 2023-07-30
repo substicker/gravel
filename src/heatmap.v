@@ -78,14 +78,15 @@ fn (mut h Heatmap) make_heatmap() {
 	}
 }
 
-fn (h Heatmap) str() string {
+pub fn (h Heatmap) str() string {
 	mut builder := strings.new_builder(0)
 
 	for index, row in h.heatmap {
 		e := h.width - index - 1
-		builder.writeln('${e:2}|' + row.join(''))
+		builder.writeln(row.join(''))
+		//builder.writeln('${e:2}|' + row.join(''))
 	}
-	builder.writeln('   ' + strings.repeat_string('-', h.width))
+	//builder.writeln('   ' + strings.repeat_string('-', h.width))
 
 	return builder.str()
 }
