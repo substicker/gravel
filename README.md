@@ -6,3 +6,4 @@ A module to make graphs in V
 ```v
 v install substicker.Gravel
 ```
+![](docs/horizontalbar.gif)
